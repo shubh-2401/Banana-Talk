@@ -1,35 +1,24 @@
-var btnTranslate = document.querySelector("#btn-translate");
-var txtInput = document.querySelector("#txt-input");
-var outputDiv = document.querySelector("#output");
+let input = document.getElementById("input");
+let API_url = "https://api.funtranslations.com/translate/minion.json";
+let output = document.getElementById("output");
 
-
-// URL of the server where our translation is done.
-var serverURL = "https://api.funtranslations.com/translate/minion.json?";
-
-
-// Function which creates a URL including our input text using the serverURL
-function getTranslationURL(input)
-{
-    return serverURL +"text="+ input;
-}
-
-function errorHandling()
-{
-    console.log("error occured",error)
-    alert("Something is wrong with the server ! Please try again later.")
-}
-function clickHandler()
-{
-    var inputText=txtInput.value; // taking input
-
-    // calling server for processing
-    fetch(getTranslationURL(inputText))
-    .then(response =>response.json())
-    .then(json => {
-        var translatedText = json.contents.translated;
-        outputDiv.innerText = translatedText;        // output
-    })
-    .catch(errorHandling)
+let errorHandler = (error) => {
+  console.log("Error Occured", error);
+  alert("We are Facing some issues, Please try again after sometime");
 };
-btnTranslate.addEventListener("click",clickHandler);
 
+//Calling Convert
+
+function convert() {
+  //Setting API URL
+
+  let api_request_url = `${API_url}?text=${input.value}`;
+
+  fetch(api_request_url)
+    .then((response) => response.json())
+    .then((json) => {
+      let translatedText = json.contents.translated;
+      output.value = translatedText;
+    })
+    .catch(errorHandler);
+}
